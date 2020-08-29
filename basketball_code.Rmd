@@ -1,0 +1,25 @@
+---
+title: "basketball_data_code"
+author: "Austin Chen"
+date: "8/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+bball_data = read.csv("players_stats_by_season_full_details.csv")
+```
+
+```{r}
+head(bball_data)
+```
+```{r}
+tail(bball_data)
+```
+```{r}
+summary(bball_data)
+```
+
