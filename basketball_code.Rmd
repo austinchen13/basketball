@@ -10,16 +10,134 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
+library(xml2)
+library(rvest)
+library(tidyverse)
+library(ggplot2)
+```
+## Reading CSV File
+Must be in same directory as project
+```{r}
 bball_data = read.csv("players_stats_by_season_full_details.csv")
 ```
 
+
+
+
+## Basic R functions
 ```{r}
 head(bball_data)
 ```
+
 ```{r}
 tail(bball_data)
 ```
 ```{r}
 summary(bball_data)
 ```
+
+```{r}
+View(bball_data)
+```
+
+## Editing the Dataset
+```{r}
+bball_data$three_point_pct = paste(round((bball_data$X3PM / bball_data$X3PA) * 100, digits = 2), "%")
+```
+# Here we add a new column to the dataset that gives us the three point percentage by dividing the columns X3PM and X3PA. Made three point shots/Attempted three point shots = 3 point percentage
+# Paste allows us to concatenate a numerical value with a string
+# We also want to find field goal percentage and others such as points per game using the same process. We are not really interested in total points a player has in a season. 
+```{r}
+bball_data$MIN_per_G = round((bball_data$MIN / bball_data$GP), digits = 2)
+```
+
+```{r}
+bball_data$TOV_per_G = round((bball_data$TOV / bball_data$GP), digits = 2)
+```
+
+
+```{r}
+bball_data$fg_pct = round((bball_data$FGM / bball_data$FGA), digits = 2)
+```
+
+```{r}
+bball_data$ft_pct = round((bball_data$FTM / bball_data$FTA), digits = 2)
+```
+
+```{r}
+bball_data$REB_per_G = round((bball_data$REB / bball_data$GP), digits = 2)
+```
+
+```{r}
+bball_data$assist_per_G = round((bball_data$AST / bball_data$GP), digits = 2)
+```
+
+```{r}
+bball_data$steals_per_G = round((bball_data$STL / bball_data$GP), digits = 2)
+```
+
+```{r}
+bball_data$BLK_per_G = round((bball_data$BLK / bball_data$GP), digits = 2)
+```
+
+```{r}
+bball_data$points_per_G = round((bball_data$PTS / bball_data$GP), digits = 2)
+```
+
+# Now we can get rid of the columns we do not need
+```{r}
+glimpse(bball_data)
+```
+
+```{r}
+bball_data = bball_data[,-c(7:22)]
+```
+
+# We can also create a new dataframe with only the stats and the relevant information
+```{r}
+glimpse(bball_data)
+```
+
+
+```{r}
+bball_stats = bball_data[,c(1:5,16:24)]
+```
+
+```{r}
+View(bball_stats)
+```
+
+# Now we have created a data frame called "bball_stats" with relevant stats for easy readibility
+
+```{r}
+head(bball_data)
+```
+
+
+
+## Subsetting the data
+
+
+```{r}
+nba = bball_data[bball_data$League == "NBA",]
+```
+
+```{r}
+summary(bball_data[bball_data$League == "NBA",])
+```
+# Another way to subset data using the piping operator ( %>% )
+
+
+```{r}
+bball_data %>% 
+  filter(League == "NBA")
+```
+
+
+```{r}
+summary(bball_data %>% 
+  filter(League == "NBA"))
+```
+
+
 
