@@ -37,7 +37,7 @@ summary(bball_data)
 ```
 
 ```{r}
-View(bball_data)
+# View(bball_data)
 ```
 
 ## Editing the Dataset
@@ -104,7 +104,7 @@ bball_stats = bball_data[,c(1:5,16:24)]
 ```
 
 ```{r}
-View(bball_stats)
+# View(bball_stats)
 ```
 
 # Now we have created a data frame called "bball_stats" with relevant stats for easy readibility
@@ -139,5 +139,27 @@ summary(bball_data %>%
   filter(League == "NBA"))
 ```
 
+## Making visually appealing plots with bball
 
+```{r}
+ggplot(bball_data, aes(x = points_per_G)) + geom_density(color = "blue") + ggtitle("Points Per Game Density")
+```
+
+
+```{r}
+ggplot(bball_data, aes(x = points_per_G, y = height_cm)) + geom_point(color = "orange") + ggtitle("Relationship between height and points per game")
+```
+
+```{r}
+ggplot(bball_data, aes(x = REB_per_G, y = height_cm)) + geom_point(color = "green") + ggtitle("Relationship between height and points per game")
+```
+```{r}
+ggplot(bball_data %>% 
+         filter(League == "NBA"), aes(x = fg_pct)) + geom_density(color = "purple") + ggtitle("NBA fg_pct distribution")
+```
+
+```{r}
+ggplot(bball_data %>% 
+         filter(League == "Euroleague"), aes(x = fg_pct)) + geom_density(color = "turquoise") + ggtitle("Euroleague fg_pct distribution")
+```
 
