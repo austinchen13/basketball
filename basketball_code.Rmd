@@ -14,6 +14,7 @@ library(xml2)
 library(rvest)
 library(tidyverse)
 library(ggplot2)
+library(corrplot)
 ```
 ## Reading CSV File
 Must be in same directory as project
@@ -42,11 +43,9 @@ summary(bball_data)
 
 ## Editing the Dataset
 ```{r}
-bball_data$three_point_pct = paste(round((bball_data$X3PM / bball_data$X3PA) * 100, digits = 2), "%")
+bball_data$three_point_pct = round((bball_data$X3PM / bball_data$X3PA), digits = 2)
 ```
-# Here we add a new column to the dataset that gives us the three point percentage by dividing the columns X3PM and X3PA. Made three point shots/Attempted three point shots = 3 point percentage
-# Paste allows us to concatenate a numerical value with a string
-# We also want to find field goal percentage and others such as points per game using the same process. We are not really interested in total points a player has in a season. 
+
 ```{r}
 bball_data$MIN_per_G = round((bball_data$MIN / bball_data$GP), digits = 2)
 ```
@@ -162,4 +161,33 @@ ggplot(bball_data %>%
 ggplot(bball_data %>% 
          filter(League == "Euroleague"), aes(x = fg_pct)) + geom_density(color = "turquoise") + ggtitle("Euroleague fg_pct distribution")
 ```
+```{r}
+ggplot(bball_data %>% 
+         filter(League == "NBA"), aes(x = height)) + geom_bar(color = "red") + ggtitle("NBA height Distribution")
+```
+
+```{r}
+ggplot(bball_data %>% 
+         filter(League == "Euroleague"), aes(x = height)) + geom_bar(color = "red") + ggtitle("Euroleague height Distribution")
+```
+```{r}
+ggplot(bball_data, aes(x = height, y = points_per_G, color = League)) + geom_point() + ggtitle("Height vs PPG for all leagues")
+```
+```{r}
+ggplot(bball_data, aes(x = height, y = points_per_G, color = birth_year)) + geom_point() + ggtitle("Height vs PPG for all leagues")
+```
+
+```{r}
+bball_data %>% 
+  filter(points_per_G == max(bball_data$points_per_G))
+```
+
+```{r}
+glimpse(bball_data)
+```
+```{r}
+bball_matrix = as.matrix(bball_stats[ , c(6:14)])
+corrplot(cor(bball_matrix, use="pairwise.complete.obs"), is.corr = FALSE, method = "circle", type = "upper")
+```
+
 
