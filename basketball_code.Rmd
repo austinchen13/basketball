@@ -99,7 +99,7 @@ glimpse(bball_data)
 
 
 ```{r}
-bball_stats = bball_data[,c(1:5,16:24)]
+bball_stats = bball_data[,c(1:5,16:25)]
 ```
 
 ```{r}
@@ -152,6 +152,8 @@ ggplot(bball_data, aes(x = points_per_G, y = height_cm)) + geom_point(color = "o
 ```{r}
 ggplot(bball_data, aes(x = REB_per_G, y = height_cm)) + geom_point(color = "green") + ggtitle("Relationship between height and points per game")
 ```
+We can see here that heigh does play somewhat of a role in rebounds, but in points the correalation is not evident. 
+
 ```{r}
 ggplot(bball_data %>% 
          filter(League == "NBA"), aes(x = fg_pct)) + geom_density(color = "purple") + ggtitle("NBA fg_pct distribution")
@@ -181,13 +183,19 @@ ggplot(bball_data, aes(x = height, y = points_per_G, color = birth_year)) + geom
 bball_data %>% 
   filter(points_per_G == max(bball_data$points_per_G))
 ```
-
+The highest points per game from across all leagues belong to Jonathan Gibson of the CBA.
 ```{r}
 glimpse(bball_data)
 ```
+Here I can use glimpse to easily specify which columns I need. 
 ```{r}
-bball_matrix = as.matrix(bball_stats[ , c(6:14)])
+bball_matrix = as.matrix(bball_stats[ , c(6:15)])
 corrplot(cor(bball_matrix, use="pairwise.complete.obs"), is.corr = FALSE, method = "circle", type = "upper")
 ```
 
+```{r}
+bball_matrix = as.matrix(bball_stats[ , c(6:15)])
+corrplot(cor(bball_matrix, use="pairwise.complete.obs"), is.corr = FALSE, method = "circle", type = "lower")
+```
+These plots show the correalation between stats. The bigger and darker the circle is, the more correalted the corresponding statistics are. 
 
