@@ -192,10 +192,20 @@ Here I can use glimpse to easily specify which columns I need.
 bball_matrix = as.matrix(bball_stats[ , c(6:15)])
 corrplot(cor(bball_matrix, use="pairwise.complete.obs"), is.corr = FALSE, method = "circle", type = "upper")
 ```
-
+These plots show the correalation between stats. The bigger and darker the circle is, the more correalted the corresponding statistics are. 
 ```{r}
 bball_matrix = as.matrix(bball_stats[ , c(6:15)])
 corrplot(cor(bball_matrix, use="pairwise.complete.obs"), is.corr = FALSE, method = "circle", type = "lower")
 ```
-These plots show the correalation between stats. The bigger and darker the circle is, the more correalted the corresponding statistics are. 
+Here is a corrplot in lower triangular form. 
+
+
+Let's find NBA players who averaged a triple double in a season
+```{r}
+bball_data %>% 
+  filter(League == "NBA" & points_per_G >= 10 & REB_per_G >= 10 & assist_per_G >=10)
+```
+Only one player! 
+
+
 
